@@ -3,12 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Events;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EventsController extends Controller
 {
+    private $items_per_page = 10;
+
     public function index(){
-        $title = 'Events';
-        return view('panel.events', compact('title'));
+        $title = 'All events';
+        $events = Events::filters()->allEvents()->paginate($this->items_per_page);
+        return view('panel.events', compact('title', 'events'));
+    }
+
+    public function nextDays($days = 5){
+        $title = 'All events in '.$days.' days';
+        $events = Events::filters()->nextDays($days)->paginate($this->items_per_page);
+        return view('panel.events', compact('title', 'events'));
+    }
+
+    public function today($days = 5){
+        $title = 'Today events';
+        $events = Events::filters()->today()->paginate($this->items_per_page);
+        return view('panel.events', compact('title', 'events'));
     }
 
     public function add(){
@@ -16,36 +34,50 @@ class EventsController extends Controller
         return view('panel.view_event', compact('title'));
     }
 
-    public function import(){
-        $file = public_path('file/test.csv');
+    public function edit($id_event){
+        $title = 'Edit Event';
 
-        $customerArr = $this->csvToArray($file);
-
-        for ($i = 0; $i < count($customerArr); $i ++)
-        {
-            User::firstOrCreate($customerArr[$i]);
-        }
+        $event = Events::where('id', $id_event)
+                       ->where('id_user', Auth::user()->id)
+                       ->first();
+        return view('panel.view_event', compact('title', 'event'));
     }
 
-    private function csvToArray($filename = '', $delimiter = ',')
-    {
-        if (!file_exists($filename) || !is_readable($filename))
-            return false;
+    public function delete($id_event){
+        $event = Events::where('id', $id_event)
+            ->where('id_user', Auth::user()->id)
+            ->first();
+        $event->delete();
 
-        $header = null;
-        $data = array();
-        if (($handle = fopen($filename, 'r')) !== false)
-        {
-            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
-            {
-                if (!$header)
-                    $header = $row;
-                else
-                    $data[] = array_combine($header, $row);
-            }
-            fclose($handle);
-        }
-
-        return $data;
+        return $id_event;
     }
+
+    public function submit(Request $request, $id_event = null){
+        $this->validate($request, [
+            'title' => 'required|string|max:50',
+            'description' => 'required|string|max:150',
+            'event_starts' => 'required|before_or_equal:event_ends|date_format:d/m/Y',
+            'event_ends' => 'required|after_or_equal:event_starts|date_format:d/m/Y',
+        ]);
+
+        $event = Events::submit($request, $id_event);
+        return redirect()->route('events_view', ['id_event' => $event->id]);
+
+    }
+
+    public function importCsv(Request $request){
+        $this->validate($request, [
+            'file_csv' => 'required|file'
+        ]);
+
+        $file = $request->file_csv;
+
+        Excel::load($file, function($reader) {
+
+            // reader methods
+            $results = $reader->get();
+            dd($results);
+        });
+    }
+
 }

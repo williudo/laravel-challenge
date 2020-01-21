@@ -390,20 +390,44 @@ p {
 .sidebar{
   margin-top: 5px;
   padding-top: 5px;
-  height: 60vh;
-  overflow: auto;
+  /*height: 60vh;
+  overflow: auto;*/
   background-color: #EEEEEE;
 }
 .content-data{
   margin-top: 5px;
   padding-top: 5px;
-  height: 60vh;
-  overflow: auto;
+  /*height: 60vh;
+  overflow: auto;*/
   background-color: #EEEEEE;
+}
+.btn-same-line {
+  padding-top: 18px !important;
+  border-radius: 3px !important;
 }
 .event-list-span{
   font-size: 20px;
 }
 /*.control-label{
   width: 100%;
+}
+ */
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  cursor: inherit;
+  display: block;
 }

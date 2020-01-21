@@ -19,11 +19,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('events', array('as' => 'events', 'uses' => 'EventsController@index'));
     Route::get('events/next_days/{days?}', array('as' => 'events_next_days', 'uses' => 'EventsController@nextDays'));
     Route::get('events/today', array('as' => 'events_today', 'uses' => 'EventsController@today'));
-    Route::get('events/view/{id_event}', array('as' => 'events_view', 'uses' => 'EventsController@view'));
-    Route::post('events/edit/{id_event}', array('as' => 'events_view', 'uses' => 'EventsController@edit'));
+    Route::get('events/view/{id_event}', array('as' => 'events_view', 'uses' => 'EventsController@edit'));
+    Route::post('events/edit/{id_event}', array('as' => 'events_edit', 'uses' => 'EventsController@submit'));
+    Route::get('events/delete/{id_event}', array('as' => 'events_delete', 'uses' => 'EventsController@delete'));
     Route::get('events/add', array('as' => 'events_add', 'uses' => 'EventsController@add'));
-    Route::post('events/add', array('as' => 'events_create', 'uses' => 'EventsController@create'));
-    Route::post('events/import/csv', array('as' => 'events_view', 'uses' => 'EventsController@importCsv'));
+    Route::post('events/add', array('as' => 'events_create', 'uses' => 'EventsController@submit'));
+    Route::post('events/import/csv', array('as' => 'import_csv', 'uses' => 'EventsController@importCsv'));
     Route::get('events/invite/{id_event}', array('as' => 'invite', 'uses' => 'EventsController@invite'));
     Route::post('events/invite/{id_event}', array('as' => 'send_invite', 'uses' => 'EventsController@sendInvite'));
     /*End event routes*/

@@ -10,11 +10,11 @@
 <link rel="stylesheet" type="text/css" href="{{url('css/fa-solid.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url('css/fontawesome.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url('/css/fontawesome-all.min.css')}}">
-<link rel="stylesheet" type="text/css" href="{{url('/css/bootstrap-datetimepicker.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url('/css/bootstrap-datepicker.min.css')}}">
 <script src="{{url('/js/jquery.min.js')}}" type="text/javascript" charset="utf-8"></script>
 <script src="{{url('/js/jquery.mask.min.js')}}" type="text/javascript" charset="utf-8"></script>
 <script src="{{url('js/jquery-ui.min.js')}}" type="text/javascript" charset="utf-8"></script>
 <script src="{{url('js/bootstrap.min.js')}}" type="text/javascript" charset="utf-8"></script>
+<script src="{{url('js/bootstrap-datepicker.min.js')}}" type="text/javascript" charset="utf-8"></script>
 <script src="{{url('js/app.js')}}" type="text/javascript" charset="utf-8"></script>
-<script src="{{url('js/bootstrap-datetimepicker.min.js')}}" type="text/javascript" charset="utf-8"></script>
 @yield('load_assets')

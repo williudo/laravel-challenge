@@ -1,7 +1,13 @@
 @extends('template.template')
 @section('content')
     <div class="grid">
-        @if(session()->has('errors'))
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <button class="close" data-close="alert"></button>
+                @foreach ($errors->all() as $error)
+                    <span>{{$error}}</span><br>
+                @endforeach
+            </div>
         @endif
         <form action="{{route('send_login')}}" method="POST" class="form login">
             {{csrf_field()}}
